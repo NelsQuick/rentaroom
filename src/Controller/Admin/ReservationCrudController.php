@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Reservation;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 class ReservationCrudController extends AbstractCrudController
 {
@@ -15,11 +17,10 @@ class ReservationCrudController extends AbstractCrudController
     
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
-    }
+        yield DateTimeField::new('startDate');
+        yield DateTimeField::new('endDate');
+        yield AssociationField::new('room');
+        yield AssociationField::new('user');
     
+}
 }
