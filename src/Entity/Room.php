@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
@@ -37,12 +38,14 @@ class Room
     #[ORM\ManyToMany(targetEntity: material::class, inversedBy: 'rooms')]
     private Collection $material;
 
-    public function __construct()
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->reservations = new ArrayCollection();
         $this->software = new ArrayCollection();
         $this->ergonomics = new ArrayCollection();
         $this->material = new ArrayCollection();
+        $this->entityManager = $entityManager;
     }
 
     public function __toString(): string
@@ -192,3 +195,4 @@ class Room
         return $this;
     }
 }
+

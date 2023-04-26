@@ -2,23 +2,31 @@
 
 namespace App\Controller;
 
-use App\Repository\RoomRepository;
+use App\Entity\Room;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 class RoomController extends AbstractController
 {
-    // Route qui affiche une note en particulier
-    #[Route('/room/{id}', name: 'show_room', methods: ['GET', 'POST'])]
-    public function show($id, RoomRepository $oneRoom): Response
+    private $entityManager;
+    
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        // Affiche la note demandée dans le template dédié
+        $this->entityManager = $entityManager;
+    }
+    
+    // Route qui affiche une room en particulier
+    #[Route('/room/{id}', name: 'show_room', methods: ['GET', 'POST'])]
+    public function show($id): Response
+    {
+        // Récupère la room demandée par son id
+        $oneRoom = $this->entityManager->getRepository(Room::class)->findOneBy(['id' => $id]);
+
+        // Affiche la room demandée dans le template dédié
         return $this->render('room/index.html.twig', [
-            // Récupère la note demandée par son id
-            'oneRoom' => $oneRoom->findOneBy(
-                ['id' => $id]
-            ),
-    ]);
-}
+            'oneRoom' => $oneRoom,
+        ]);
+    }
 }

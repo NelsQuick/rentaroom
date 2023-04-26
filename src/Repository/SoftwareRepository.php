@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Room;
 use App\Entity\Software;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -38,6 +39,15 @@ class SoftwareRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findByRoom(Room $room)
+{
+    return $this->createQueryBuilder('s')
+        ->andWhere(':room MEMBER OF s.rooms')
+        ->setParameter('room', $room)
+        ->getQuery()
+        ->getResult();
+}
 
 //    /**
 //     * @return Software[] Returns an array of Software objects

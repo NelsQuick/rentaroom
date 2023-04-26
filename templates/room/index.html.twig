@@ -11,12 +11,23 @@
 			<p class="card-text">{{ oneRoom.description }}</p>
 			<h6 class="card-text mb-4">This room can accommodate up to
 				{{ oneRoom.capacity }}
-				people</h6>
-			<img src="https://source.unsplash.com/random/1370x400/?workspace" alt="Room">
-			<img class="my-4" src="https://source.unsplash.com/random/1370x400/?desk" alt="Room">
-			<br>
-			<a href="#" class="btn btn-primary">Book this room</a>
-			<a href={{path ("app_rooms")}} class="btn btn-primary">Return to our rooms</a>
+				people <br> <br>
+				<p>Softwares available in this room :
+				{% for software in oneRoom.software %}
+					{{ software.name }}{% if not loop.last %},{% endif %}{% endfor %}.<br>
+				Materials available in this room :
+				{% for material in oneRoom.material %}
+					{{ material.name }}{% if not loop.last %},{% endif %}{% endfor %}.<br>
+				Ergonomics available in this room :
+				{% for ergonomics in oneRoom.ergonomics %}
+					{{ ergonomics.name }}{% if not loop.last %},{% endif %}{% endfor %}.<br></p> 
+
+
+				<img src="https://source.unsplash.com/random/1370x400/?workspace" alt="Room">
+				<img class="my-4" src="https://source.unsplash.com/random/1370x400/?desk" alt="Room">
+				<br>
+				<a href="#" class="btn btn-primary">Book this room</a>
+				<a href={{path ("app_rooms")}} class="btn btn-primary">Return to our rooms</a>
+			</div>
 		</div>
-	</div>
-{% endblock %}
+	{% endblock %}
